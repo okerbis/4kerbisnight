@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ארבעה לילות</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#140d0b;--card:#efe7da;--ink:#4f3226;--muted:#a58a77;--gold:#c9a36a;--red:#c2474b;--wine:#8e1f3a;--green:#2f7a4a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:#f3e9dc;font-family:Heebo,Arial,sans-serif}
+body{background:radial-gradient(120% 500px at 50% 0%,#3a2014 0%,var(--bg) 100%) no-repeat var(--bg)}
+button{font-family:inherit;cursor:pointer}
+#app{max-width:480px;margin:0 auto;padding:16px 16px 40px;display:flex;flex-direction:column;gap:12px}
+.serif{font-family:"Frank Ruhl Libre",Georgia,serif}
+h1{font-family:"Frank Ruhl Libre",serif;font-size:30px;margin:6px 0 2px;text-align:center}
+.sub{color:var(--muted);text-align:center;margin:0;font-size:14px}
+.eyebrow{font-size:12px;letter-spacing:.18em;color:var(--muted);font-weight:700}
+.card{background:var(--card);color:var(--ink);border-radius:22px;padding:18px;box-shadow:0 10px 30px #0007}
+.card p{line-height:1.6;font-size:16px;margin:8px 0}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;font-size:17px;font-weight:700;background:var(--gold);color:#2a1810;text-align:center}
+.btn:disabled{opacity:.4}
+.btn.ghost{background:transparent;border:1px solid #c9a36a88;color:var(--gold)}
+.scr{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 10px 30px #0008}
+.scr .under{background:var(--card);color:var(--ink);padding:22px 20px;min-height:380px}
+.scr .under h2{font-family:"Frank Ruhl Libre",serif;font-size:28px;margin:6px 0 10px}
+.scr .under p{white-space:pre-line;line-height:1.6;font-size:16px}
+.scr canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;transition:opacity .6s}
+.hint{text-align:center;color:var(--muted);font-size:13.5px}
+.sec{padding:6px 16px}
+.sec .ttl{font-family:"Frank Ruhl Libre",serif;font-size:21px;font-weight:700;margin:8px 0 0}
+.sec .s{font-size:12.5px;color:#8a6a58}
+.q{padding:10px 0;border-bottom:1px solid #4f322618}
+.q:last-child{border-bottom:0}
+.pills{display:flex;gap:6px;margin-top:7px}
+.pill{flex:1;border:1px solid #4f322633;background:#fff8;border-radius:10px;padding:9px 2px;font-size:15px;color:var(--ink)}
+.pill.on{background:var(--wine);color:#fff;border-color:var(--wine)}
+.pill.y.on{background:var(--green);border-color:var(--green)}
+.pill.m.on{background:var(--gold);color:#2a1810;border-color:var(--gold)}
+.pill.n.on{background:#7a3030;border-color:#7a3030}
+.q.miss{background:#c2474b1c;border-radius:10px;padding:10px 8px}
+.bar{height:6px;background:#ffffff1a;border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gold);transition:.3s}
+.sticky{position:sticky;top:0;z-index:5;background:#140d0bee;padding:8px 0;backdrop-filter:blur(6px)}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:40;padding:30px}
+.modal.on{display:flex}
+.modal .box{background:#1f120d;border:1px solid var(--red);border-radius:22px;padding:24px;text-align:center;width:100%;max-width:360px}
+.modal .big{font-size:60px}
+.modal h3{font-family:"Frank Ruhl Libre",serif;font-size:26px;margin:6px 0}
+.modal p{color:#d8c4b4;margin:4px 0 16px}
+.wheelwrap{position:relative;width:300px;height:300px;margin:6px auto}
+.wheel{width:100%;height:100%;border-radius:50%;transition:transform 3.6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 0 6px #c9a36a,0 0 40px #c9a36a55;position:relative}
+.pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);border-left:16px solid transparent;border-right:16px solid transparent;border-top:28px solid #fff;filter:drop-shadow(0 3px 4px #000a);z-index:2}
+.hub{position:absolute;inset:0;margin:auto;width:70px;height:70px;border-radius:50%;background:#140d0b;border:4px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:28px;z-index:2}
+.timer{font-size:64px;font-weight:800;text-align:center;color:var(--gold);direction:ltr;line-height:1}
+.wyr{display:flex;flex-direction:column;gap:12px}
+.wyr button{border:0;border-radius:20px;padding:28px 10px;font-size:26px;font-weight:800;font-family:"Frank Ruhl Libre",serif}
+.wyr .a{background:var(--card);color:var(--ink)}.wyr .b{background:var(--wine);color:#fff}
+.or{text-align:center;color:var(--muted);font-weight:700;letter-spacing:.2em}
+.ch{display:flex;gap:10px;align-items:center;background:#fff8;border:1px solid #4f322622;border-radius:14px;padding:10px;text-align:right;color:var(--ink);width:100%;margin-bottom:8px}
+.ch .e{font-size:26px;width:44px;height:44px;border-radius:12px;background:#4f32261a;display:flex;align-items:center;justify-content:center;flex:none}
+.ch b{display:block;font-size:15.5px}.ch small{color:#8a6a58;font-size:12.5px;line-height:1.3;display:block}
+.ch.on{background:var(--wine);color:#fff;border-color:var(--wine)}.ch.on small{color:#f0d0d6}
+.minis{display:flex;gap:6px;flex-wrap:wrap}
+.minis button{flex:1;min-width:28%;border:1px solid #4f322633;background:#fff8;border-radius:10px;padding:9px 4px;font-size:14px;color:var(--ink)}
+.minis button.on{background:var(--gold);border-color:var(--gold);font-weight:700}
+textarea,input[type=text]{width:100%;border-radius:12px;border:1px solid #4f322633;padding:12px;font-family:inherit;font-size:16px;background:#fffc;color:var(--ink)}
+.rank button{display:flex;justify-content:space-between;width:100%;padding:13px 14px;margin-bottom:8px;border-radius:12px;border:1px solid #4f322633;background:#fff8;font-size:16px;color:var(--ink)}
+.rank button.on{background:var(--wine);color:#fff}
+.rank .n{font-weight:800}
+.err{color:#ffb4b4;text-align:center}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="modal" id="devil"><div class="box"><div class="big">😈</div><h3>אי אפשר להתחמק</h3><p id="devilTxt"></p><button class="btn" onclick="closeDevil()">טוב, טוב...</button></div></div>
+<script>
+// ===== ארבעה לילות · תוכן משותף (בוט + מיני־אפליקציה) =====
+var FN_CONTENT = (function(){
+var NAME={m:'אופיר',f:'סאשה'};
+
+// שאלון ההתאמות. mode: ymn = כן/אולי/לא, yn = רק כן/לא (חובה)
+var QUIZ=[
+ {id:'food',t:'🍽️ אוכל',mode:'ymn',pick:'one',items:[
+  ['sushi','סושי'],['pizza','פיצה'],['burger','המבורגר'],['asian','תאילנדי או סיני'],['street','שווארמה או אוכל רחוב'],['taco','טאקו מקסיקני'],
+  ['pasta','מבשלים ביחד פסטה','פסטה, שמנת או רוטב עגבניות, פרמזן'],['cheese','פלטת גבינות, לחם טרי ופירות','גבינות, באגט, ענבים'],['bfast','ארוחת בוקר בערב: פנקייקים','תערובת פנקייק, מייפל, ביצים']]},
+ {id:'drink',t:'🍸 שתייה (אפשר כמה)',mode:'ymn',pick:'all',items:[
+  ['cocktail','קוקטיילים','ליים, סירופ סוכר, קרח'],['red','יין אדום','בקבוק יין אדום'],['white','יין לבן או רוזה','בקבוק יין לבן או רוזה'],['beer','בירה','בירות'],['breezer','בריזר','בריזרים'],['shots','שוטים','בקבוק לשוטים'],['joint','ג׳וינט'],['sober','ערב פיכח']]},
+ {id:'watch',t:'📺 צפייה',mode:'ymn',pick:'one',items:[
+  ['teen','פרק מסדרה רומנטית (היא בוחרת)'],['comedy','קומדיה'],['horror','סרט אימה, כדי שתתכרבלו'],['romance','סרט רומנטי'],['action','סרט אקשן'],['standup','סטנדאפ'],['yt','קליפים ושירים ביוטיוב, שרים ביחד'],['board','בלי מסך: משחק קלפים או קופסה']]},
+ {id:'where',t:'🛋️ איפה',mode:'yn',pick:'one',hot:1,items:[
+  ['bed','במיטה'],['sofa','על הספה בסלון'],['dining','על שולחן האוכל'],['showerP','במקלחת'],['kitchen','על שולחן המטבח'],['mirror','מול המראה'],['balcony','במרפסת']]},
+ {id:'warm',t:'🔥 חימום',mode:'yn',pick:'one',hot:1,items:[
+  ['kiss','התמזמזות ארוכה על הספה, עם בגדים'],['massage','מסאז׳ כתפיים וכפות רגליים, ממנו אליה'],['shower','מקלחת ביחד'],['lingerie','היא בהלבשה תחתונה סקסית'],['strip','היא מתפשטת לאט מולו, לאורך שיר אחד'],['blind','כיסוי עיניים'],['dirty','מדברים מלוכלך'],['cream','קצפת או שוקולד על הגוף','קצפת בתרסיס או ממרח שוקולד']]},
+ {id:'music',t:'🎵 מוזיקה למצב רוח',mode:'yn',pick:'one',hot:1,items:[
+  ['rnb','R&B וסול איטי'],['jazz','ג׳אז רגוע'],['ilpop','פופ ישראלי רומנטי'],['house','דיפ האוס ולאונג׳'],['hiphop','היפ הופ'],['nomusic','בלי מוזיקה, רק אנחנו']]},
+ {id:'act',t:'😈 מה עושים',mode:'yn',pick:'two',hot:1,items:[
+  ['down','הוא יורד לה'],['suck','היא מוצצת לו'],['p69','69'],['face','היא יושבת לו על הפנים'],['vib','ויברטור עליה'],['solo','היא נוגעת בעצמה מולו'],['mutual','אוננות משותפת'],['porn','רואים פורנו ביחד']]},
+ {id:'fin',t:'💋 הגמר',mode:'yn',pick:'one',hot:1,items:[
+  ['ride','היא למעלה, רוכבת לאט, והידיים שלו מאחורי הראש'],['back','מאחור'],['spoon','כפית, על הצד'],['miss','מיסיונרית לאט, עם מבט בעיניים'],['legs','רגליים על הכתפיים'],['stand','בעמידה, מול הקיר'],['edge','היא על קצה המיטה, הוא עומד']]},
+ {id:'end',t:'⏱️ איך זה נגמר',mode:'opt',hot:1,items:[
+  ['ending','איך זה נגמר הערב?',null,['זבנג וגמרנו','ממשיכים עד שהיא אומרת שמסיימים']],
+  ['round2','סיבוב שני הלילה?',null,['כן','לא']]]}
+];
+var QUIZ_IDS=[];QUIZ.forEach(function(s){s.items.forEach(function(it){QUIZ_IDS.push(it[0])})});
+
+var WYR=[['ים','בריכה'],['סושי','המבורגר'],['בוקר','לילה'],['תאילנד','פריז'],['נשיקה בצוואר','נשיקה באוזן'],['אור','חושך'],['מהר','לאט'],['מקלחת','אמבטיה'],['למעלה','למטה'],['ללחוש','לצעוק'],['תחתונים שחורים','אדומים'],['יין','קוקטייל'],['לבוש','עירום'],['ספה','מיטה'],['מסאז׳','נשיקות'],['חתול','כלב'],['קודם אני','קודם השני'],['כיסוי עיניים','אוזניות עם מוזיקה'],['ארוחת בוקר במיטה','ארוחת ערב בחוץ'],['פורנו','סדרה רומנטית'],['נשיכה','שריטה'],['מראה','חושך מוחלט'],['בבית','במלון'],['בוקר שאחרי: קפה','עוד סיבוב'],['החולצה שלו','כלום'],['מילים מלוכלכות','שקט'],['מרפסת','מקלחת'],['קצר במטבח','ארוך במיטה'],['בן','בת'],['תאומים','אחד בכל פעם']];
+
+var WHO=[
+ ['הזמן הכי טוב ביום לסקס',['בוקר','צהריים','ערב','אמצע הלילה']],
+ ['התנוחה האהובה',['היא למעלה','מאחור','מיסיונרית','כפית']],
+ ['איפה הכי נעים לקבל נשיקות',['צוואר','אוזן','בטן','ירכיים']],
+ ['מה הכי מדליק אותך אצל השני',['עיניים','ידיים','ישבן','קול']],
+ ['ערב חופשי',['סדרה','יציאה','סקס','שינה']],
+ ['כמה פעמים בשבוע זה אידיאלי',['1','2–3','4–5','כל יום']],
+ ['איך הכי כיף להתחיל',['נשיקות','מסאז׳','ישר לעניין','הודעות לאורך היום']],
+ ['המקום הכי מטורף שהיית רוצה',['מרפסת','אוטו','מלון','טבע']],
+ ['מה ללבוש כדי להדליק',['הלבשה תחתונה','החולצה שלו','כלום','בגדים חגיגיים']],
+ ['אם זה מצליח השבוע',['בן','בת','תאומים','לא משנה']]
+];
+var RANK={f:['עיניים','שפתיים','ידיים','ישבן','זרועות'],m:['עיניים','שפתיים','ישבן','חזה','רגליים']}; // f מדרגת אותו, m מדרג אותה
+var COMPLETE=['הדבר הראשון שאני רוצה לעשות לך הלילה הוא...','הערב אני רוצה שתלבש/י...','מה שהכי מדליק אותי בך זה...'];
+var GUESS_ITEMS=['kitchen','balcony','p69','solo','porn'];
+
+var BLITZ={
+ wyr:{e:'🤔',t:'מה היית מעדיף',app:1},
+ who:{e:'🧠',t:'מי מכיר את מי',app:1},
+ photo:{e:'📸',t:'תמונת בזק',app:0,msg:'⚡ <b>תוך 5 דקות:</b> תמונה של המקום בגוף שלך שהכי בא לך שינשקו לך הערב.\nשולחים <b>ישירות לשני</b>, לא לבוט. ואז לוחצים כאן:'},
+ complete:{e:'✍️',t:'השלם את המשפט',app:1},
+ voice:{e:'🎙️',t:'הודעה קולית',app:0,msg:'🎙️ <b>10 שניות:</b> תלחשו מה אתם הולכים לעשות לשני הלילה.\nשלחו את ההודעה הקולית <b>לכאן, לבוט</b>. היא תישמר ותגיע לשני כשפותחים את השקית.'},
+ emoji:{e:'😈',t:'שלושה אימוג׳ים',app:1},
+ rank:{e:'🏆',t:'דירוג',app:1},
+ guess:{e:'🔍',t:'ניחוש מהשאלון',app:1},
+ fast:{e:'💬',t:'מהיר ביותר',app:0,msg:'💬 <b>מי ששולח ראשון לשני הודעה מלוכלכת של 10 מילים לפחות, מנצח.</b>\nשולחים ישירות לשני. ואז לוחצים כאן:'},
+ dance:{e:'🕺',t:'ריקוד בזק',app:0,msg:'🕺 <b>שיר אחד. עכשיו. איפה שאתם נמצאים.</b>\nריקוד, ותמונה כהוכחה (אפשר לשלוח לכאן). ואז לוחצים:'}
+};
+var WHEEL_ORDER=['wyr','photo','who','emoji','rank','fast','dance','complete','voice','guess'];
+
+var CHARS={
+ f:{
+  alex:{n:'אלכסנדרה',e:'✈️',d:'דיילת באל על, עם תואר ברוקחות, מחיפה. סושי, המבורגרים ותוכן. קצת צ׳חלה וקצת ערסית.',
+   l:['נחתתי יא מאמי ✈️ כל הטיסה דייל אחד עשה לי עיניים, ואני רק חשבתי מה אתה הולך לעשות לי הלילה. אל תאכזב אותי, כפרה עליך.','וואלה אני גוועת. אבל לא לסושי. לך. תגיע רעב, כי אני לא מתכוונת לחכות לקינוח.','יש לי תואר ברוקחות, ואני אומרת לך כמקצוענית: מה שאני צריכה הלילה לא מוכרים בסופר-פארם 😈'],
+   ph:'סלפי של אחרי הטיסה: במיטה, בלי המכנסיים של המדים.'},
+  irina:{n:'אירינה',e:'🥂',d:'עולה חדשה מאוקראינה. היי סוסייטי, שמפניה, משוגעת עם קבלות, ופצצה שיודעת שהיא פצצה.',
+   l:['זאיקה, אני חוזרת היום. תכין שמפניה, לא קאווה. ותכין גם את עצמך 🥂','בקייב גברים עומדים בשבילי בתור. אתה לא בתור. אתה ישר נכנס. אבל רק היום.','קניתי שמלה חדשה. שמרתי את הקבלה, למקרה שלא תוריד אותה ממני מספיק מהר 💋'],
+   ph:'תמונה של השמלה. עלייך, או על הרצפה. את מחליטה.'},
+  sasha:{n:'סאשה',e:'👑',d:'מושלמת כמו שהיא, לא טועה לעולם, ומושא האהבה של אופיר.',
+   l:['אני אף פעם לא טועה, ואני אומרת לך: הלילה אתה לא ישן.','חודשים בלעדיך. אני אפילו לא כועסת. אני פשוט רוצה אותך בתוכי.','תגיע מוכן. כבר החלטתי איך הערב הזה נגמר, ואתה תאהב את זה.'],
+   ph:'תמונה של מה שהוא יוריד ממך הערב. רק רמז.'}
+ },
+ m:{
+  yaakov:{n:'יעקב',e:'⚖️',d:'עורך דין מראשון לציון. מיאמי, דובאי ומכבי חיפה. סמכותי ואסרטיבי, ויודע לדאוג לה.',
+   l:['מכבי חיפה שיחקה אתמול ולא ראיתי דקה. חשבתי רק על מה שאני עושה לך כשאת חוזרת.','הייתי במיאמי, הייתי בדובאי. אין יעד שאני רוצה יותר ממך, על המיטה, עכשיו.','הזמנתי לנו מקום. תלבשי את מה שקניתי ותשאירי את כל השאר לי. הלילה אני מחליט, וזה לא נתון למשא ומתן.'],
+   ph:'מול המראה, חולצה מכופתרת פתוחה עד הבטן.'},
+  kobi:{n:'קובי',e:'💪',d:'מאמן כושר וקצין במילואים. מפרגן, תומך, תמיד מרגיע, ומרים לבת הזוג שלו.',
+   l:['חזרתי עם כוח לכל דבר. ואת כולו אני שומר בשבילך הלילה.','את לא צריכה לעשות כלום הערב. רק לשכב ולתת לי לעבוד 😉','כל היום אני מלמד אנשים להחזיק מעמד. הלילה אני מתכנן להחזיק איתך עד הבוקר.'],
+   ph:'סלפי אחרי אימון, בלי חולצה.'},
+  ofir20:{n:'אופיר של 2020',e:'🍔',d:'רק התחלתם לצאת, ולא התראיתם חודש בדיוק. שניכם לא יכולים לחכות.',
+   l:['חודש בלי לראות אותך. בהתחלה זה נשמע לי בסדר. טעיתי. אני לא מפסיק לדמיין אותך בלי בגדים.','אני עדיין זוכר את המקרויאל באוטו. הערב המושב האחורי מקבל משמעות חדשה.','אולי מוקדם להגיד את זה, אבל אני מת עלייך. וגם רוצה אותך. עכשיו.'],
+   ph:'תמונה של המושב האחורי באוטו. הוא מחכה.'}
+ }
+};
+
+var MYSTERY={
+ day:'משימה ביתית. לא מצריכה מאמץ, אבל מצריכה נכונות לעמידה במשימה, מחויבות לעמידה בזמנים וחשיבה לא שגרתית.',
+ game:'משימה ביתית לשעות הלילה. דורשת אומץ וכנות, ומעט אלכוהול לא יזיק. בלי הכנות.',
+ look:'משימה שמתחילה בבית ונגמרת מחוצה לו. דורשת הכנה מוקדמת, לבוש מתאים, ונכונות להיות מישהו אחר ליום אחד.'
+};
+
+var TONE=['חברים, אין לכם ברירה. גשו לעבודה.','הביצית בדרך. ואתם?','זו לא משימה, זו שליחות.','את התוצאות נדע בעוד שבועיים. עכשיו: לעבודה.','הדבר היחיד שצריך לגמור היום זה לא הכביסה.','בעוד תשעה חודשים אולי תיזכרו בערב הזה.'];
+
+return {NAME:NAME,QUIZ:QUIZ,QUIZ_IDS:QUIZ_IDS,WYR:WYR,WHO:WHO,RANK:RANK,COMPLETE:COMPLETE,GUESS_ITEMS:GUESS_ITEMS,BLITZ:BLITZ,WHEEL_ORDER:WHEEL_ORDER,CHARS:CHARS,MYSTERY:MYSTERY,TONE:TONE};
+})();
+
+var C=FN_CONTENT,tg=window.Telegram&&Telegram.WebApp,P={},A=document.getElementById('app');
+try{tg&&tg.ready();tg&&tg.expand()}catch(e){}
+function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var bin=atob(s),bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes)}
+try{P=JSON.parse(b64d(window.FN_PAYLOAD||location.hash.slice(1)))}catch(e){P={}}
+var W=P.w||'f',O=W==='m'?'f':'m';
+function G(m,f){return W==='f'?f:m}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function safe(h){return esc(h).replace(/&lt;(\/?)(b|i)&gt;/g,'<$1$2>')}
+function SEND(obj){var s=JSON.stringify(obj);
+ if(tg&&tg.initData!==undefined&&tg.sendData&&tg.platform&&tg.platform!=='unknown'){tg.sendData(s);return}
+ if(window.parent!==window){window.parent.postMessage({fnSend:s},'*');return}
+ A.innerHTML='<div class="card"><p>נשלח (מצב בדיקה):</p><p style="direction:ltr;font-size:12px;word-break:break-all">'+esc(s)+'</p></div>';}
+function haptic(){try{tg&&tg.HapticFeedback&&tg.HapticFeedback.impactOccurred('light')}catch(e){}}
+
+// ===== כרטיס גירוד =====
+function vCard(){
+ A.innerHTML='<div class="scr" id="scr"><div class="under"><div class="eyebrow">'+esc(P.ey||'')+'</div><h2>'+esc(P.ti||'')+'</h2><p>'+safe(P.h||'')+'</p></div><canvas id="cv"></canvas></div><div class="hint" id="hint">'+G('גרד','גרדי')+' באצבע כדי לחשוף</div><button class="btn" id="done" style="display:none">סגירה ✓</button>';
+ var cv=document.getElementById('cv'),r=cv.parentElement.getBoundingClientRect(),c=cv.getContext('2d');cv.width=r.width*2;cv.height=r.height*2;c.scale(2,2);
+ var gr=c.createLinearGradient(0,0,r.width,r.height);gr.addColorStop(0,'#b8925a');gr.addColorStop(.5,'#e2c48f');gr.addColorStop(1,'#9c7642');c.fillStyle=gr;c.fillRect(0,0,r.width,r.height);
+ c.fillStyle='#ffffff18';for(var i=0;i<500;i++)c.fillRect(Math.random()*r.width,Math.random()*r.height,2,2);
+ c.fillStyle='#5a3a1c';c.font='800 26px Heebo, Arial';c.textAlign='center';c.fillText('🔒 '+G('גרד','גרדי')+' כאן',r.width/2,r.height/2-6);c.font='500 15px Heebo, Arial';c.fillText('ארבעה לילות',r.width/2,r.height/2+22);
+ c.globalCompositeOperation='destination-out';c.lineCap='round';c.lineJoin='round';c.lineWidth=48;
+ var down=false,last,moves=0,revealed=false;
+ function pos(e){var b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]}
+ function check(){if(revealed)return;var d=c.getImageData(0,0,cv.width,cv.height).data,z=0,n=0;for(var i=3;i<d.length;i+=64){n++;if(d[i]===0)z++}if(z/n>0.5)reveal()}
+ function reveal(){revealed=true;cv.style.opacity=0;setTimeout(function(){cv.remove()},600);document.getElementById('hint').style.display='none';document.getElementById('done').style.display='block';haptic()}
+ cv.addEventListener('pointerdown',function(e){down=true;last=pos(e);cv.setPointerCapture(e.pointerId)});
+ cv.addEventListener('pointermove',function(e){if(!down)return;var p=pos(e);c.beginPath();c.moveTo(last[0],last[1]);c.lineTo(p[0],p[1]);c.stroke();last=p;if(++moves%8===0)check()});
+ cv.addEventListener('pointerup',function(){down=false;check()});
+ document.getElementById('done').onclick=function(){SEND({t:'scr',k:P.k})};
+ window.FN_reveal=reveal;
+}
+
+// ===== השאלון =====
+var QA={};
+function vQuiz(){
+ var h='<h1>השאלון הסודי</h1><p class="sub">'+G('אתה עונה','את עונה')+' לבד. רואים רק את מה ששניכם אמרתם עליו כן.</p><div class="sticky"><div class="bar"><i id="pb" style="width:0"></i></div></div>';
+ var hotStarted=false;
+ C.QUIZ.forEach(function(sec){
+  if(sec.hot&&!hotStarted){hotStarted=true;h+='<h1 style="font-size:24px;margin-top:10px">🔥 החלק החם</h1><p class="sub">רק כן או לא. חובה לענות על הכל 😈</p>'}
+  h+='<div class="card sec"><div class="ttl">'+sec.t+'</div>'+(sec.mode==='ymn'?'<div class="s">כן / אולי / לא · לא חובה</div>':'');
+  sec.items.forEach(function(it){
+   var opts=sec.mode==='ymn'?[['y','כן',2],['m','אולי',1],['n','לא',0]]:sec.mode==='yn'?[['y','כן',2],['n','לא',0]]:it[3].map(function(o,i){return ['o',o,i]});
+   h+='<div class="q" id="q_'+it[0]+'"><div>'+esc(it[1])+'</div><div class="pills">'+opts.map(function(o){return '<button class="pill '+o[0]+'" data-q="'+it[0]+'" data-v="'+o[2]+'">'+esc(o[1])+'</button>'}).join('')+'</div></div>';
+  });h+='</div>';
+ });
+ h+='<button class="btn" id="qsend">לשלוח ←</button>';
+ A.innerHTML=h;
+ A.onclick=function(e){var b=e.target.closest('.pill');if(!b)return;var q=b.dataset.q;QA[q]=+b.dataset.v;
+  b.parentElement.querySelectorAll('.pill').forEach(function(x){x.classList.toggle('on',x===b)});document.getElementById('q_'+q).classList.remove('miss');prog();haptic()};
+ document.getElementById('qsend').onclick=function(){
+  var miss=[];C.QUIZ.forEach(function(s){if(s.hot)s.items.forEach(function(it){if(QA[it[0]]==null)miss.push(it[0])})});
+  if(miss.length){miss.forEach(function(id){document.getElementById('q_'+id).classList.add('miss')});document.getElementById('devilTxt').innerHTML='נשארו '+miss.length+' שאלות בלי תשובה.<br>רק כן או לא. אף אחד לא רואה מה '+G('ענית','ענית')+'.';document.getElementById('devil').classList.add('on');window._firstMiss=miss[0];return}
+  var a=C.QUIZ_IDS.map(function(id){return QA[id]==null?0:QA[id]}).join('');SEND({t:'quiz',a:a});
+ };
+}
+function prog(){var n=Object.keys(QA).length;document.getElementById('pb').style.width=(n/C.QUIZ_IDS.length*100)+'%'}
+function closeDevil(){document.getElementById('devil').classList.remove('on');var el=window._firstMiss&&document.getElementById('q_'+window._firstMiss);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}
+
+// ===== גלגל + בזק =====
+function vBlitz(){
+ var K=C.WHEEL_ORDER,n=K.length,seg=360/n,cols=['#c9a36a','#8e1f3a','#d77a5b','#4f3226','#c2474b','#6b2d6e','#d9a066','#3a2117','#a04a5c','#7a5a3a'];
+ var g=K.map(function(k,i){return cols[i%cols.length]+' '+(i*seg)+'deg '+((i+1)*seg)+'deg'}).join(',');
+ var lab=K.map(function(k,i){var a=(i*seg+seg/2)*Math.PI/180;return '<div style="position:absolute;left:'+(50+37*Math.sin(a))+'%;top:'+(50-37*Math.cos(a))+'%;transform:translate(-50%,-50%);font-size:28px">'+C.BLITZ[k].e+'</div>'}).join('');
+ A.innerHTML='<div style="text-align:center"><div class="eyebrow" style="color:var(--gold)">⚡ משימת בזק</div><h1>מה יוצא '+G('לך','לך')+'?</h1></div><div class="wheelwrap"><div class="pointer"></div><div class="wheel" id="wh" style="background:conic-gradient('+g+')">'+lab+'</div><div class="hub">⚡</div></div><button class="btn" id="spin">לסובב 🎡</button><div class="hint" id="wres">&nbsp;</div>';
+ document.getElementById('spin').onclick=function(){this.disabled=true;var i=K.indexOf(P.k);var deg=360*6-(i*seg+seg/2);document.getElementById('wh').style.transform='rotate('+deg+'deg)';
+  setTimeout(function(){haptic();document.getElementById('wres').innerHTML='<b style="color:#c9a36a;font-size:22px">'+C.BLITZ[P.k].e+' יצא: '+C.BLITZ[P.k].t+'!</b>';setTimeout(game,1100)},3700)};
+}
+function game(){({wyr:gWyr,who:gWho,rank:gRank,complete:gComplete,emoji:gEmoji,guess:gGuess}[P.k]||gAction)()}
+function countdown(sec,el,end){var t0=Date.now(),iv=setInterval(function(){var s=Math.max(0,sec-Math.floor((Date.now()-t0)/1000));var e=document.getElementById(el);if(!e){clearInterval(iv);return}e.textContent='0:'+(s<10?'0':'')+s;if(s<=0){clearInterval(iv);end()}},200);return iv}
+function gWyr(){
+ var ans=C.WYR.map(function(){return '-'}),i=0,over=false;
+ function draw(){if(i>=30)return fin();var p=C.WYR[i];document.getElementById('wq').innerHTML='<div style="display:flex;justify-content:space-between;color:var(--muted);font-size:14px"><span>שאלה <b style="color:#f3e9dc">'+(i+1)+'</b> מתוך 30</span></div><div class="wyr"><button class="a" data-v="0">'+p[0]+'</button><div class="or">או</div><button class="b" data-v="1">'+p[1]+'</button></div>'}
+ function fin(){if(over)return;over=true;clearInterval(iv);SEND({t:'bz',k:'wyr',a:ans.join('')})}
+ A.innerHTML='<div class="timer" id="tm">0:30</div><div class="hint">אל '+G('תחשוב','תחשבי')+'. '+G('תלחץ','תלחצי')+'.</div><div id="wq"></div>';
+ A.onclick=function(e){var b=e.target.closest('.wyr button');if(!b||over)return;ans[i]=b.dataset.v;i++;haptic();draw()};
+ var iv=countdown(30,'tm',fin);draw();
+}
+function gWho(){
+ var s=[],g=[],i=0;
+ function draw(){if(i>=C.WHO.length){SEND({t:'bz',k:'who',a:{s:s,g:g}});return}var q=C.WHO[i];
+  A.innerHTML='<div class="eyebrow" style="text-align:center">'+(i+1)+' / '+C.WHO.length+'</div><h1 style="font-size:24px">'+q[0]+'</h1><div class="card"><div class="eyebrow">אני</div><div class="minis" id="ms">'+q[1].map(function(o,j){return '<button data-j="'+j+'">'+o+'</button>'}).join('')+'</div><div class="eyebrow" style="margin-top:14px">מה לדעתי '+(W==='f'?'הוא':'היא')+' '+(W==='f'?'ענה':'ענתה')+'</div><div class="minis" id="mg">'+q[1].map(function(o,j){return '<button data-j="'+j+'">'+o+'</button>'}).join('')+'</div></div><button class="btn" id="nx" disabled>הבא ←</button>';
+  var a=null,b=null;function upd(){document.getElementById('nx').disabled=(a==null||b==null)}
+  document.getElementById('ms').onclick=function(e){var x=e.target.closest('button');if(!x)return;a=+x.dataset.j;this.querySelectorAll('button').forEach(function(y){y.classList.toggle('on',y===x)});upd()};
+  document.getElementById('mg').onclick=function(e){var x=e.target.closest('button');if(!x)return;b=+x.dataset.j;this.querySelectorAll('button').forEach(function(y){y.classList.toggle('on',y===x)});upd()};
+  document.getElementById('nx').onclick=function(){s.push(a);g.push(b);i++;draw()}}
+ draw();
+}
+function gRank(){
+ var L=C.RANK[W],LO=C.RANK[O],order=[];
+ A.innerHTML='<h1 style="font-size:24px">מה '+G('אתה הכי אוהב','את הכי אוהבת')+' בגוף '+(W==='f'?'שלו':'שלה')+'?</h1><p class="sub">'+G('לחץ','לחצי')+' לפי הסדר, מהכי אהוב</p><div class="card rank" id="rk">'+L.map(function(x,i){return '<button data-i="'+i+'"><span>'+x+'</span><span class="n"></span></button>'}).join('')+'</div><div class="card"><div class="eyebrow">ניחוש: מה '+(W==='f'?'הוא שם':'היא שמה')+' במקום הראשון אצלך?</div><div class="minis" id="rg">'+LO.map(function(x,i){return '<button data-i="'+i+'">'+x+'</button>'}).join('')+'</div></div><button class="btn" id="rs" disabled>לשלוח ←</button>';
+ var gg=null;function upd(){document.getElementById('rs').disabled=!(order.length===L.length&&gg!=null)}
+ document.getElementById('rk').onclick=function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i,k=order.indexOf(i);if(k>=0)order.splice(k,1);else order.push(i);
+  this.querySelectorAll('button').forEach(function(x){var j=order.indexOf(+x.dataset.i);x.classList.toggle('on',j>=0);x.querySelector('.n').textContent=j>=0?(j+1):''});upd()};
+ document.getElementById('rg').onclick=function(e){var b=e.target.closest('button');if(!b)return;gg=+b.dataset.i;this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});upd()};
+ document.getElementById('rs').onclick=function(){SEND({t:'bz',k:'rank',a:{r:order,g:gg}})};
+}
+function gComplete(){
+ var done=false;
+ A.innerHTML='<div class="timer" id="tm">0:60</div><div class="hint">60 שניות לשלושה משפטים. בלי לחשוב יותר מדי.</div>'+C.COMPLETE.map(function(q,i){return '<div class="card"><div class="eyebrow">'+(i+1)+'</div><p><b>'+q+'</b></p><textarea id="c'+i+'" rows="2"></textarea></div>'}).join('')+'<button class="btn" id="cs">לשלוח ←</button>';
+ function fin(){if(done)return;done=true;SEND({t:'bz',k:'complete',a:C.COMPLETE.map(function(q,i){return document.getElementById('c'+i).value.trim()})})}
+ countdown(60,'tm',fin);document.getElementById('cs').onclick=fin;
+}
+function gEmoji(){
+ A.innerHTML='<h1 style="font-size:26px">שלושה אימוג׳ים</h1><p class="sub">'+G('תאר','תארי')+' בשלושה אימוג׳ים מה בא '+G('לך','לך')+' הלילה. '+(W==='f'?'הוא':'היא')+' '+(W==='f'?'ינחש':'תנחש')+'.</p><div class="card"><input type="text" id="em" maxlength="24" placeholder="🍷🛁🔥" style="font-size:34px;text-align:center"></div><button class="btn" id="es">לשלוח ←</button><div class="err" id="ee"></div>';
+ document.getElementById('es').onclick=function(){var v=document.getElementById('em').value.trim();if(!v){document.getElementById('ee').textContent='צריך לפחות אימוג׳י אחד 😉';return}SEND({t:'bz',k:'emoji',a:v})};
+}
+function gGuess(){
+ var lab={};C.QUIZ.forEach(function(s){s.items.forEach(function(it){lab[it[0]]=it[1]})});var g={};
+ A.innerHTML='<h1 style="font-size:24px">על מה '+(W==='f'?'הוא אמר':'היא אמרה')+' כן?</h1><p class="sub">מהשאלון. הדוח יראה רק כמה '+G('צדקת','צדקת')+', לא על מה.</p><div class="card">'+C.GUESS_ITEMS.map(function(id){return '<div class="q"><div>'+esc(lab[id])+'</div><div class="pills"><button class="pill y" data-q="'+id+'" data-v="1">כן</button><button class="pill n" data-q="'+id+'" data-v="0">לא</button></div></div>'}).join('')+'</div><button class="btn" id="gs" disabled>לשלוח ←</button>';
+ A.onclick=function(e){var b=e.target.closest('.pill');if(!b)return;g[b.dataset.q]=b.dataset.v;b.parentElement.querySelectorAll('.pill').forEach(function(x){x.classList.toggle('on',x===b)});document.getElementById('gs').disabled=Object.keys(g).length<C.GUESS_ITEMS.length};
+ document.getElementById('gs').onclick=function(){SEND({t:'bz',k:'guess',a:C.GUESS_ITEMS.map(function(id){return g[id]}).join('')})};
+}
+function gAction(){var X=C.BLITZ[P.k];
+ A.innerHTML='<div style="text-align:center;font-size:70px">'+X.e+'</div><h1>'+X.t+'</h1><div class="card"><p>'+safe(X.msg||'').replace(/\n/g,'<br>')+'</p></div><button class="btn" id="ok">הבנתי ⚡</button>';
+ document.getElementById('ok').onclick=function(){SEND({t:'bzs',k:P.k})};
+}
+
+// ===== ההצעה הדרמטית =====
+function vProp(){
+ var mine=C.CHARS[W],his=C.CHARS.m,sel=null,bw=null,bg=null;
+ var h='<div class="card"><div class="eyebrow">📜 הצעה סודית</div><p>מחר: דייט. בגדים חדשים, בר קוקטיילים.<br>אבל מחר אתם יכולים להיות גם <b>זוג צעיר בתחילת הדרך</b>, שלא התראה כבר חודשים, והלהט של שניכם בשיא.</p><p style="font-size:14px;background:#8e1f3a14;border-radius:10px;padding:8px 10px">⚠️ שניכם נשאלים, כל אחד בנפרד. זה יקרה <b>רק אם שניכם תבחרו דמות</b>. אם רק אחד בוחר, הוא מקבל <b>100 נקודות</b>.</p>'+
+  '<div class="eyebrow" style="margin:12px 0 8px">'+G('רוצה להשתתף? מי אתה רוצה להיות מחר?','רוצה להשתתף? מי את רוצה להיות מחר?')+'</div><div id="cs">'+Object.keys(mine).map(function(k){var c=mine[k];return '<button class="ch" data-c="'+k+'"><span class="e">'+c.e+'</span><span><b>'+c.n+'</b><small>'+c.d+'</small></span></button>'}).join('')+'<button class="ch" data-c="no" style="justify-content:center;color:#8a6a58">לא, תודה. רק דייט בבר קוקטיילים</button></div>';
+ if(W==='f')h+='<div class="eyebrow" style="margin:14px 0 6px">⭐ בונוס: מי היית רוצה שאופיר יהיה? (+10)</div><div class="minis" id="bw">'+Object.keys(his).map(function(k){return '<button data-c="'+k+'">'+his[k].n+'</button>'}).join('')+'</div><div class="eyebrow" style="margin:12px 0 6px">⭐ בונוס: מי לדעתך הוא יבחר להיות? (+5)</div><div class="minis" id="bg">'+Object.keys(his).map(function(k){return '<button data-c="'+k+'">'+his[k].n+'</button>'}).join('')+'</div>';
+ h+='</div><button class="btn" id="ps" disabled>לשלוח בסוד 🤫</button>';
+ A.innerHTML=h;
+ document.getElementById('cs').onclick=function(e){var b=e.target.closest('.ch');if(!b)return;sel=b.dataset.c;this.querySelectorAll('.ch').forEach(function(x){x.classList.toggle('on',x===b)});document.getElementById('ps').disabled=false};
+ if(W==='f'){document.getElementById('bw').onclick=function(e){var b=e.target.closest('button');if(!b)return;bw=b.dataset.c;this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)})};
+  document.getElementById('bg').onclick=function(e){var b=e.target.closest('button');if(!b)return;bg=b.dataset.c;this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)})}}
+ document.getElementById('ps').onclick=function(){var a={c:sel};if(W==='f'&&sel!=='no'){if(bw)a.w=bw;if(bg)a.g=bg}SEND({t:'prop',a:a})};
+}
+
+({card:vCard,quiz:vQuiz,blitz:vBlitz,prop:vProp}[P.m]||function(){A.innerHTML='<h1>ארבעה לילות 🔥</h1><p class="sub">הדף הזה נפתח מתוך הבוט.</p>'})();
+</script>
+</body>
+</html>
