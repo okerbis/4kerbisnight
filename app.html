@@ -175,7 +175,11 @@ return {NAME:NAME,QUIZ:QUIZ,QUIZ_IDS:QUIZ_IDS,WYR:WYR,WHO:WHO,RANK:RANK,COMPLETE
 var C=FN_CONTENT,tg=window.Telegram&&Telegram.WebApp,P={},A=document.getElementById('app');
 try{tg&&tg.ready();tg&&tg.expand()}catch(e){}
 function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var bin=atob(s),bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes)}
-try{P=JSON.parse(b64d(window.FN_PAYLOAD||location.hash.slice(1)))}catch(e){P={}}
+function rawPayload(){if(window.FN_PAYLOAD)return window.FN_PAYLOAD;
+ try{var q=new URLSearchParams(location.search).get('p');if(q)return q}catch(e){}
+ var h=location.hash.slice(1);try{h=decodeURIComponent(h)}catch(e){}
+ h=h.split('&')[0].split('?')[0];return h.indexOf('tgWebApp')===0?'':h}
+try{P=JSON.parse(b64d(rawPayload()))}catch(e){P={}}
 var W=P.w||'f',O=W==='m'?'f':'m';
 function G(m,f){return W==='f'?f:m}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -304,7 +308,7 @@ function vProp(){
  document.getElementById('ps').onclick=function(){var a={c:sel};if(W==='f'&&sel!=='no'){if(bw)a.w=bw;if(bg)a.g=bg}SEND({t:'prop',a:a})};
 }
 
-({card:vCard,quiz:vQuiz,blitz:vBlitz,prop:vProp}[P.m]||function(){A.innerHTML='<h1>ארבעה לילות 🔥</h1><p class="sub">הדף הזה נפתח מתוך הבוט.</p>'})();
+({card:vCard,quiz:vQuiz,blitz:vBlitz,prop:vProp}[P.m]||function(){A.innerHTML='<h1>ארבעה לילות 🔥</h1><p class="sub">הדף הזה נפתח מתוך הבוט.</p><p class="sub" style="font-size:12px;opacity:.6;direction:ltr">q'+location.search.length+' h'+location.hash.length+'</p>'})();
 </script>
 </body>
 </html>
