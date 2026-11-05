@@ -83,7 +83,7 @@ var NAME={m:'אופיר',f:'סאשה'};
 var QUIZ=[
  {id:'food',t:'🍽️ אוכל',mode:'ymn',pick:'one',items:[
   ['sushi','סושי'],['pizza','פיצה'],['burger','המבורגר'],['asian','תאילנדי או סיני'],['street','שווארמה או אוכל רחוב'],['taco','טאקו מקסיקני'],
-  ['pasta','מבשלים ביחד פסטה','פסטה, שמנת או רוטב עגבניות, פרמזן'],['cheese','פלטת גבינות, לחם טרי ופירות','גבינות, באגט, ענבים'],['bfast','ארוחת בוקר בערב: פנקייקים','תערובת פנקייק, מייפל, ביצים']]},
+  ['pasta','מבשלים ביחד פסטה','פסטה, שמנת או רוטב עגבניות, פרמזן'],['cheese','פלטת גבינות, לחם טרי ופירות','גבינות, באגט, ענבים'],['bfast','ארוחת בוקר בערב: פנקייקים','תערובת פנקייק, מייפל, ביצים'],['snacks','נשנושים וחטיפים, בלי ארוחה','חטיפים, במבה, שוקולד']]},
  {id:'drink',t:'🍸 שתייה (אפשר כמה)',mode:'ymn',pick:'all',items:[
   ['cocktail','קוקטיילים','ליים, סירופ סוכר, קרח'],['red','יין אדום','בקבוק יין אדום'],['white','יין לבן או רוזה','בקבוק יין לבן או רוזה'],['beer','בירה','בירות'],['breezer','בריזר','בריזרים'],['shots','שוטים','בקבוק לשוטים'],['joint','ג׳וינט'],['sober','ערב פיכח']]},
  {id:'watch',t:'📺 צפייה',mode:'ymn',pick:'one',items:[
@@ -297,8 +297,8 @@ function gAction(){var X=C.BLITZ[P.k];
 // ===== ההצעה הדרמטית =====
 function vProp(){
  var mine=C.CHARS[W],his=C.CHARS.m,sel=null,bw=null,bg=null;
- var h='<div class="card"><div class="eyebrow">📜 הצעה סודית</div><p>מחר: דייט. בגדים חדשים, בר קוקטיילים.<br>אבל מחר אתם יכולים להיות גם <b>זוג צעיר בתחילת הדרך</b>, שלא התראה כבר חודשים, והלהט של שניכם בשיא.</p><p style="font-size:14px;background:#8e1f3a14;border-radius:10px;padding:8px 10px">⚠️ שניכם נשאלים, כל אחד בנפרד. זה יקרה <b>רק אם שניכם תבחרו דמות</b>. אם רק אחד בוחר, הוא מקבל <b>100 נקודות</b>.</p>'+
-  '<div class="eyebrow" style="margin:12px 0 8px">'+G('רוצה להשתתף? מי אתה רוצה להיות מחר?','רוצה להשתתף? מי את רוצה להיות מחר?')+'</div><div id="cs">'+Object.keys(mine).map(function(k){var c=mine[k];return '<button class="ch" data-c="'+k+'"><span class="e">'+c.e+'</span><span><b>'+c.n+'</b><small>'+c.d+'</small></span></button>'}).join('')+'<button class="ch" data-c="no" style="justify-content:center;color:#8a6a58">לא, תודה. רק דייט בבר קוקטיילים</button></div>';
+ var h='<div class="card"><div class="eyebrow">📜 הצעה סודית</div><p>הערב: דייט. בגדים חדשים, בר קוקטיילים.<br>אבל הערב אתם יכולים להיות גם <b>זוג צעיר בתחילת הדרך</b>, שלא התראה כבר חודשים, והלהט של שניכם בשיא.</p><p style="font-size:14px;background:#8e1f3a14;border-radius:10px;padding:8px 10px">⚠️ שניכם נשאלים, כל אחד בנפרד. זה יקרה <b>רק אם שניכם תבחרו דמות</b>. אם רק אחד בוחר, הוא מקבל <b>100 נקודות</b>.</p>'+
+  '<div class="eyebrow" style="margin:12px 0 8px">'+G('רוצה להשתתף? מי אתה רוצה להיות הערב?','רוצה להשתתף? מי את רוצה להיות הערב?')+'</div><div id="cs">'+Object.keys(mine).map(function(k){var c=mine[k];return '<button class="ch" data-c="'+k+'"><span class="e">'+c.e+'</span><span><b>'+c.n+'</b><small>'+c.d+'</small></span></button>'}).join('')+'<button class="ch" data-c="no" style="justify-content:center;color:#8a6a58">לא, תודה. רק דייט בבר קוקטיילים</button></div>';
  if(W==='f')h+='<div class="eyebrow" style="margin:14px 0 6px">⭐ בונוס: מי היית רוצה שאופיר יהיה? (+10)</div><div class="minis" id="bw">'+Object.keys(his).map(function(k){return '<button data-c="'+k+'">'+his[k].n+'</button>'}).join('')+'</div><div class="eyebrow" style="margin:12px 0 6px">⭐ בונוס: מי לדעתך הוא יבחר להיות? (+5)</div><div class="minis" id="bg">'+Object.keys(his).map(function(k){return '<button data-c="'+k+'">'+his[k].n+'</button>'}).join('')+'</div>';
  h+='</div><button class="btn" id="ps" disabled>לשלוח בסוד 🤫</button>';
  A.innerHTML=h;
